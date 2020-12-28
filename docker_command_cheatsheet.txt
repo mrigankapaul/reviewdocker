@@ -1,0 +1,64 @@
+docker version
+docker info // configuration info
+docker container run -p 80:80 nginx // docker container run
+docker container run -p 80:80 -d nginx // detached mode
+docker container ls
+docker container ls -a
+docker container logs -f 502
+docker container top 502
+docker run -it --rm --privileged --pid=host justincormack/nsenter1 // to it into alpine linux on mac.
+ps aux | grep mongo // to check for the process of the container
+"Windows Containers" are the new hotness! Technically, they are Native Windows .exe binaries running in Docker containers on a Windows kernel, and have no Linux installed
+docker container stats
+docker container run -it // run a new container interractively
+docker container exec -it // exec into a running container
+docker container start -ai 59534cbdb035 // starting a new container interractively
+docker container run -it --name proxy nginx bash
+
+Make new virtual networks
+Attach containers to more than one virtual network (none)
+skip virtual networks and use host IP(--net=host)
+docker network drivers
+
+docker container port webhost // to check the port mapping
+docker container inspect webhost | grep IPAddress
+docker network ls
+docker network inspect 
+docker network create --driver
+docker network connect 
+docker network disconnect
+docker network create my_app_net
+docker container run --name new_nginx -p81:80 -d --network my_app_net nginx
+docker network connect bridge new_nginx
+docker container inspect new_nginx
+docker container run --name mynginx --network my_app_net -d nginx:alpine
+docker container exec -it mynginx bash
+ping new_nginx // DNS resolution in the new network by default
+docker container run --network my_app_net --network-alias search elasticsearch:2
+docker container run --rm -it --network my_app_net centos:7 curl -s search:9200
+
+
+Image = App Binaries and dependencies + Metadata about the image data and how to run the image
+docker image ls
+Union File System
+docker image history nginx:latest
+copy on write -> container
+docker image tag nginx mrigankapaul/nginx
+docker image push mrigankapaul/nginx
+docker image build -t mrigankapaul/customnginx .
+docker image prune
+docker system prune
+
+Volumes - makes special location outside of container UFS
+Bind Mounts - link container path to host path
+docker container run -d -e MYSQL_RANDOM_ROOT_PASSWORD=yes -p3307:3306 --name mysql -v mysql-db:/var/lib/mysqlmysql mysql // named volumes
+bind mounts cannot be used in container 
+
+docker-compose up // will build image if not found in cache 
+docker-compose down
+docker-compose up -d
+docker-compose logs
+docker-compose ps
+docker-compose top
+docker-compose build // rebuild an image
+docker-compose down --rmi local // if you do not specify the image name when u build it using the compose file.
